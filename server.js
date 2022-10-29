@@ -25,17 +25,20 @@ io.on('connection', (socket) => {
     // socket.send('we love javaScript');
 
     // getting data form client & return to every client
-     socket.on('chat', ({name, msg}) => {
+     socket.on('chat', ({name, msg, photo}) => {
         // io.sockets.emit('newEvent', data);
 
         // get old chat
         const oldChat = JSON.parse(readFileSync(path.join(__dirname, './db/chat.json')));
-        oldChat.push({name, msg});
+        oldChat.push({name, msg, photo});
         writeFileSync(path.join(__dirname, './db/chat.json'), JSON.stringify(oldChat));
-
         // console.log(oldChat);
 
+        // get all chat from db
+        const latestChat = JSON.parse(readFileSync(path.join(__dirname, './db/chat.json')));
 
+        // return to every client
+        io.sockets.emit('latestChat', latestChat);
 
      });
 

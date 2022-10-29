@@ -47,26 +47,32 @@
       <div class="row">
         <div class="col-md-6">
           <div class="card">
-            <div class="card-body d-flex gap-2">
-              <img
-                src="https://ahmadnaser.com/wp-content/uploads/2013/10/12.jpg"
-                alt=""
-              />
-              <div class="message">
-                <h6>Denies Ritchie</h6>
-                <p>Hello World</p>
-              </div>
-            </div>
+            <div class="card-body" id="chartData"></div>
             <div class="card-footer">
               <form action="">
                 <div class="input-group">
-                  <input type="text" name="name" placeholder="Name" id="name" />
                   <input
+                    style="width: 28%"
                     type="text"
                     name="name"
+                    placeholder="Name"
+                    id="name"
+                  />
+                  <input
+                    style="width: 28%"
+                    type="text"
+                    name="photo"
+                    placeholder="photo"
+                    id="photo"
+                  />
+                  <input
+                    style="width: 28%"
+                    type="text"
+                    name="msg"
                     placeholder="Message"
                     id="msg"
                   />
+
                   <input
                     type="submit"
                     class="btn btn-sm btn-info"
@@ -85,11 +91,36 @@
     <script>
       const socket = io();
 
-      document.getElementById("send").onclick = () => {
+      document.getElementById("send").onclick = (e) => {
+        e.preventDefault();
         const name = document.getElementById("name").value;
         const msg = document.getElementById("msg").value;
+        const photo = document.getElementById("photo").value;
         // alert(name + msg);
-        socket.emit("chat", { name, msg });
+
+        // data send to server
+        socket.emit("chat", { name, msg, photo });
+
+        // get data from server
+        socket.on("latestChat", (data) => {
+          let chatLoad = "";
+          data.forEach((item) => {
+            chatLoad += `
+            <div class="d-flex gap-2 mb-2">
+                <img
+                  src="${item.photo}"
+                  alt=""
+                />
+                <div class="message">
+                  <h6>${item.name}</h6>
+                  <p>${item.msg}</p>
+                </div>
+              </div>
+            `;
+          });
+          document.getElementById("chartData").innerHTML = chatLoad;
+          document.getElementById("msg").value = "";
+        });
       };
     </script>
   </body>
