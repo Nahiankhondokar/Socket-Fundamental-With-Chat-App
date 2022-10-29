@@ -52,8 +52,11 @@
           <div class="card">
             <div class="card-header">
               <h3 class="text-center">Chat Applicaiton</h3>
+              <audio id="notification" src="./sound.mp3"></audio>
             </div>
+
             <div class="card-body" id="chartData"></div>
+
             <div class="card-footer">
               <div id="form-item">
                 <input
@@ -95,8 +98,11 @@
     <script>
       const socket = io();
 
+      // get all data from chat application
       document.getElementById("send").onclick = (e) => {
         e.preventDefault();
+
+        // get all data
         const name = document.getElementById("name").value;
         const msg = document.getElementById("msg").value;
         const photo = document.getElementById("photo").value;
@@ -115,6 +121,8 @@
       socket.on("latestChat", (data) => {
         let chatLoad = "";
         let user_name = localStorage.getItem("user");
+        // notificaiton
+        document.getElementById("notification").play();
         data.forEach((item) => {
           // user checking from all data
           if (user_name == item.name) {

@@ -58,6 +58,9 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client.html'));
 });
 
+// static folder
+app.use(express.static(path.join(__dirname)));
+
 // server listen
 httpServer.listen(5050, () => {
     console.log(`Server is Running on 5050`.bgCyan);
