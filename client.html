@@ -118,6 +118,11 @@
       // single connection
       const socket = io();
 
+      // socket group conneciton
+      socket.on("js", (data) => {
+        document.getElementById("title").innerHTML = data;
+      });
+
       // get all data from chat application
       document.getElementById("send").onclick = (e) => {
         e.preventDefault();

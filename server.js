@@ -62,6 +62,19 @@ personalMeet.on('connection', () => {
     
 });
 
+
+// socket Group connection system
+io.on('connection', (socket) => {
+    // group 01
+    socket.join('javaScript');
+    io.sockets.in('javaScript').emit('js', 'i am from javaScript');
+    // group 02
+    socket.join('laravel');
+    io.sockets.in('laravel').emit('lara', 'i am from javaScript');
+});
+
+
+
 // route
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client.html'));
