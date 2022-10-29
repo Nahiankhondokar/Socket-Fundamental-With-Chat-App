@@ -7,11 +7,14 @@
     <title>Document</title>
   </head>
   <body>
-    <h2>Hello World</h2>
+    <h2 id="title">Hello World</h2>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
+      socket.on("allData", (data) => {
+        document.getElementById("title").innerText = data;
+      });
     </script>
   </body>
 </html>

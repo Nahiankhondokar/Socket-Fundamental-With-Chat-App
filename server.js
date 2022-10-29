@@ -18,6 +18,18 @@ const io = new Server(httpServer);
 // create connection with client
 io.on('connection', (socket) => {
     console.log(`Client Connected Successfully`.bgMagenta.black);
+
+
+    // data send to client
+    socket.send('we love javaScript');
+
+
+    socket.emit('allData', 'emit event is working');
+
+    // if client disconnect
+    socket.on('disconnect', () => {
+        console.log(`Client Disconnected`.bgRed.black);
+    });
 });
 
 
@@ -26,7 +38,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'client.html'));
 });
 
-
+// server listen
 httpServer.listen(5050, () => {
     console.log(`Server is Running on 5050`.bgCyan);
 });
