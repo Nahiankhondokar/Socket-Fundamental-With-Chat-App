@@ -43,6 +43,21 @@
       #form-item {
         display: flex;
       }
+
+      #chartData .chat-item:last-child {
+        transform: translate(0px, 0px);
+        animation: msg 0.3s;
+      }
+      @keyframes msg {
+        0% {
+          transform: translate(0px, 40px);
+          opacity: 0;
+        }
+        100% {
+          transform: translate(0px, 0px);
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
@@ -96,6 +111,11 @@
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      // multiple connection
+      const personal = io("/personal");
+      const official = io("/official");
+
+      // single connection
       const socket = io();
 
       // get all data from chat application
@@ -122,12 +142,13 @@
         let chatLoad = "";
         let user_name = localStorage.getItem("user");
         // notificaiton
-        document.getElementById("notification").play();
+        // document.getElementById("notification").play();
         data.forEach((item) => {
           // user checking from all data
           if (user_name == item.name) {
             chatLoad += `
-            <div class="d-flex gap-2 mb-2 justify-content-end">
+            <div class="chat-item">
+                <div class="d-flex gap-2 mb-2 justify-content-end">
                 
                 <div class="message" style="background: #b1ddb1;">
                   <h6>${item.name}</h6>
@@ -138,19 +159,23 @@
                   alt=""
                 />
               </div>
+            </div>
+            
             `;
           } else {
             chatLoad += `
-            <div class="d-flex gap-2 mb-2">
-                <img
-                  src="${item.photo}"
-                  alt=""
-                />
-                <div class="message">
-                  <h6>${item.name}</h6>
-                  <p>${item.msg}</p>
+            <div class="chat-item">
+                <div class="d-flex gap-2 mb-2">
+                    <img
+                    src="${item.photo}"
+                    alt=""
+                    />
+                    <div class="message">
+                    <h6>${item.name}</h6>
+                    <p>${item.msg}</p>
+                    </div>
                 </div>
-              </div>
+            </div>
             `;
           }
         });

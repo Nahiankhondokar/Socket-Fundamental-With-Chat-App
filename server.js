@@ -52,6 +52,15 @@ io.on('connection', (socket) => {
     // });
 });
 
+// socket Namespace connection system
+const officialMeet = io.of('/official');
+const personalMeet = io.of('/personal');
+officialMeet.on('connection', () => {
+
+});
+personalMeet.on('connection', () => {
+    
+});
 
 // route
 app.get('/', (req, res) => {
