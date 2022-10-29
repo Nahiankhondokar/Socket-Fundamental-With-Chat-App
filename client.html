@@ -8,6 +8,8 @@
   </head>
   <body>
     <h2 id="title">Hello World</h2>
+    <hr />
+    <input type="text" id="msg" />
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -15,6 +17,14 @@
       socket.on("newEvent", (data1, data2, data3) => {
         document.getElementById("title").innerText = data1 + data2 + data3;
       });
+
+      document.getElementById("msg").onkeyup = (e) => {
+        let msg = e.target.value;
+        console.log(msg);
+        socket.emit("client", msg);
+      };
+
+      //   socket;
     </script>
   </body>
 </html>

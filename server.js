@@ -22,9 +22,13 @@ io.on('connection', (socket) => {
 
     // data send to client
     socket.send('we love javaScript');
-    
+
     socket.emit('newEvent', 'emit event is working',
      'Hello', 'Hi');
+
+     socket.on('client', (data) => {
+        console.log(data);
+     });
 
 
     // if client disconnect
