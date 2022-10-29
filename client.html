@@ -40,47 +40,51 @@
         border: solid 1px #e9e9e9;
         margin: 2px;
       }
+      #form-item {
+        display: flex;
+      }
     </style>
   </head>
   <body>
     <div class="container mt-5">
-      <div class="row">
+      <div class="row justify-content-center">
         <div class="col-md-6">
           <div class="card">
+            <div class="card-header">
+              <h3 class="text-center">Chat Applicaiton</h3>
+            </div>
             <div class="card-body" id="chartData"></div>
             <div class="card-footer">
-              <form action="">
-                <div class="input-group">
-                  <input
-                    style="width: 28%"
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    id="name"
-                  />
-                  <input
-                    style="width: 28%"
-                    type="text"
-                    name="photo"
-                    placeholder="photo"
-                    id="photo"
-                  />
-                  <input
-                    style="width: 28%"
-                    type="text"
-                    name="msg"
-                    placeholder="Message"
-                    id="msg"
-                  />
+              <div id="form-item">
+                <input
+                  class="form-control"
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  id="name"
+                />
+                <input
+                  class="form-control"
+                  type="text"
+                  name="photo"
+                  placeholder="photo"
+                  id="photo"
+                />
+                <input
+                  type="text"
+                  name="msg"
+                  placeholder="Message"
+                  id="msg"
+                  class="form-control"
+                />
 
-                  <input
-                    type="submit"
-                    class="btn btn-sm btn-info"
-                    value="Send"
-                    id="send"
-                  />
-                </div>
-              </form>
+                <input
+                  type="submit"
+                  class="btn btn-sm btn-info"
+                  value="Send"
+                  id="send"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -98,13 +102,36 @@
         const photo = document.getElementById("photo").value;
         // alert(name + msg);
 
+        // user name send to loacal storage
+        if (!localStorage.getItem("user")) {
+          localStorage.setItem("user", name);
+        }
+
         // data send to server
         socket.emit("chat", { name, msg, photo });
+      };
 
-        // get data from server
-        socket.on("latestChat", (data) => {
-          let chatLoad = "";
-          data.forEach((item) => {
+      // get data from server
+      socket.on("latestChat", (data) => {
+        let chatLoad = "";
+        let user_name = localStorage.getItem("user");
+        data.forEach((item) => {
+          // user checking from all data
+          if (user_name == item.name) {
+            chatLoad += `
+            <div class="d-flex gap-2 mb-2 justify-content-end">
+                
+                <div class="message" style="background: #b1ddb1;">
+                  <h6>${item.name}</h6>
+                  <p>${item.msg}</p>
+                </div>
+                <img
+                  src="${item.photo}"
+                  alt=""
+                />
+              </div>
+            `;
+          } else {
             chatLoad += `
             <div class="d-flex gap-2 mb-2">
                 <img
@@ -117,11 +144,11 @@
                 </div>
               </div>
             `;
-          });
-          document.getElementById("chartData").innerHTML = chatLoad;
-          document.getElementById("msg").value = "";
+          }
         });
-      };
+        document.getElementById("chartData").innerHTML = chatLoad;
+        document.getElementById("msg").value = "";
+      });
     </script>
   </body>
 </html>

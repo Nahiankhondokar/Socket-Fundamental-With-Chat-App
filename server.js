@@ -20,6 +20,10 @@ const io = new Server(httpServer);
 io.on('connection', (socket) => {
     console.log(`Client Connected Successfully`.bgMagenta.black);
 
+    // get all chat from db
+    const latestChat = JSON.parse(readFileSync(path.join(__dirname, './db/chat.json')));
+    // return to every client
+    io.sockets.emit('latestChat', latestChat);
 
     // data send to client
     // socket.send('we love javaScript');
@@ -36,7 +40,6 @@ io.on('connection', (socket) => {
 
         // get all chat from db
         const latestChat = JSON.parse(readFileSync(path.join(__dirname, './db/chat.json')));
-
         // return to every client
         io.sockets.emit('latestChat', latestChat);
 
