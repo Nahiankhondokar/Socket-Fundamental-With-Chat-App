@@ -12,8 +12,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
-      socket.on("allData", (data) => {
-        document.getElementById("title").innerText = data;
+      socket.on("newEvent", (data1, data2, data3) => {
+        document.getElementById("title").innerText = data1 + data2 + data3;
       });
     </script>
   </body>
