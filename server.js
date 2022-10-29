@@ -1,6 +1,7 @@
 const express = require('express');
 const colors = require('colors');
 const path = require('path');
+const { readFileSync, writeFileSync } = require('fs');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
@@ -21,18 +22,28 @@ io.on('connection', (socket) => {
 
 
     // data send to client
-    socket.send('we love javaScript');
+    // socket.send('we love javaScript');
 
     // getting data form client & return to every client
-     socket.on('client', (data) => {
-        io.sockets.emit('newEvent', data);
+     socket.on('chat', ({name, msg}) => {
+        // io.sockets.emit('newEvent', data);
+
+        // get old chat
+        const oldChat = JSON.parse(readFileSync(path.join(__dirname, './db/chat.json')));
+        oldChat.push({name, msg});
+        writeFileSync(path.join(__dirname, './db/chat.json'), JSON.stringify(oldChat));
+
+        // console.log(oldChat);
+
+
+
      });
 
 
     // if client disconnect
-    socket.on('disconnect', () => {
-        console.log(`Client Disconnected`.bgRed.black);
-    });
+    // socket.on('disconnect', () => {
+    //     console.log(`Client Disconnected`.bgRed.black);
+    // });
 });
 
 
