@@ -23,11 +23,9 @@ io.on('connection', (socket) => {
     // data send to client
     socket.send('we love javaScript');
 
-    socket.emit('newEvent', 'emit event is working',
-     'Hello', 'Hi');
-
+    // getting data form client & return to every client
      socket.on('client', (data) => {
-        console.log(data);
+        io.sockets.emit('newEvent', data);
      });
 
 

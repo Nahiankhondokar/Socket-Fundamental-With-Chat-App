@@ -14,8 +14,8 @@
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
-      socket.on("newEvent", (data1, data2, data3) => {
-        document.getElementById("title").innerText = data1 + data2 + data3;
+      socket.on("newEvent", (data1) => {
+        document.getElementById("title").innerText = data1;
       });
 
       document.getElementById("msg").onkeyup = (e) => {
