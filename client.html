@@ -5,26 +5,91 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    />
+
+    <style>
+      body {
+        background-color: #e9e9e9;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .message {
+        background-color: #e9e9e9;
+        padding: 5px 20px;
+        border-radius: 7px;
+      }
+      p {
+        padding: 0px;
+        margin: 0px;
+      }
+
+      h6 {
+        font-weight: bold;
+        padding: 0px;
+        margin: 0px;
+      }
+      input {
+        border: solid 1px #e9e9e9;
+        margin: 2px;
+      }
+    </style>
   </head>
   <body>
-    <h2 id="title">Hello World</h2>
-    <hr />
-    <input type="text" id="msg" />
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body d-flex gap-2">
+              <img
+                src="https://ahmadnaser.com/wp-content/uploads/2013/10/12.jpg"
+                alt=""
+              />
+              <div class="message">
+                <h6>Denies Ritchie</h6>
+                <p>Hello World</p>
+              </div>
+            </div>
+            <div class="card-footer">
+              <form action="">
+                <div class="input-group">
+                  <input type="text" name="name" placeholder="Name" id="name" />
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Message"
+                    id="msg"
+                  />
+                  <input
+                    type="submit"
+                    class="btn btn-sm btn-info"
+                    value="Send"
+                    id="send"
+                  />
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
       const socket = io();
-      socket.on("newEvent", (data1) => {
-        document.getElementById("title").innerText = data1;
-      });
 
-      document.getElementById("msg").onkeyup = (e) => {
-        let msg = e.target.value;
-        console.log(msg);
-        socket.emit("client", msg);
+      document.getElementById("send").onclick = () => {
+        const name = document.getElementById("name").value;
+        const msg = document.getElementById("msg").value;
+        alert(name + msg);
       };
-
-      //   socket;
     </script>
   </body>
 </html>
