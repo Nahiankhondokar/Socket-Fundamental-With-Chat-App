@@ -9,14 +9,16 @@ const { Server } = require('socket.io');
 const app = express();
 
 
-const { createServer } = require('http');
-const { Server } = require('socket.io');
 // create express server to row server
 const httpServer = createServer(app);
+
 // row server to socket server
 const io = new Server(httpServer);
 
-
+// create connection with client
+io.on('connection', (socket) => {
+    console.log(`Client Connected Successfully`.bgMagenta.black);
+});
 
 
 // route
@@ -25,6 +27,6 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(5050, () => {
+httpServer.listen(5050, () => {
     console.log(`Server is Running on 5050`.bgCyan);
 });
